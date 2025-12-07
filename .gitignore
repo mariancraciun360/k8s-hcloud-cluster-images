@@ -1,0 +1,5 @@
+*.pkrvars.hcl
+variables.json
+
+*.pem
+*.envrc
