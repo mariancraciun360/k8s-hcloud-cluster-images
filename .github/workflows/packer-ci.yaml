@@ -27,6 +27,14 @@ jobs:
       - name: Check Formatting
         run: packer fmt -check -recursive .
 
+      - name: Create dummy variables file
+        run: |
+          cat > talos.pkrvars.hcl <<EOF
+          server_location    = "fsn1"
+          talos_version      = "v0.0.0"
+          talos_schematic_id = "dummy_schematic_id"
+          EOF
+
       - name: Validate Template
         run: packer validate -var-file=talos.pkrvars.hcl images/
 
