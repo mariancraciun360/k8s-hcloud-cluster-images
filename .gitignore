@@ -1,0 +1,19 @@
+.direnv/
+.envrc
+
+# Local packer variable files
+talos.pkrvars.hcl
+*.pkrvars.hcl
+
+# Packer artifacts
+.packer.d/
+packer_cache/
+
+# OS / editor
+.DS_Store
+*.pkrvars.hcl
+variables.json
+
+*.pem
+*.env
+*.envrc

@@ -1,0 +1,32 @@
+name: Packer CI
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  validate:
+    name: Validate Packer Template
+    runs-on: ubuntu-latest
+    env:
+      HCLOUD_TOKEN: "fake-token-for-validation"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@v3.0.0
+        with:
+          version: "1.14.3"
+      - name: Initialize Packer
+        run: packer init images/
+      - name: Check Formatting
+        run: packer fmt -check -recursive .
+      - name: Create dummy variables file
+        run: |
+          cat > talos.pkrvars.hcl <<EOF
+          server_location    = "fsn1"
+          talos_version      = "v0.0.0"
+          talos_schematic_id = "dummy_schematic_id"
+          EOF
+      - name: Validate Template
+        run: packer validate -var-file=talos.pkrvars.hcl images/
